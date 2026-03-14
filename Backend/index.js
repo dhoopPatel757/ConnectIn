@@ -17,7 +17,7 @@ import notificationRouter from "./routes/notification.routes.js";
 
 export const io = new Server(server, {
     cors : {
-        origin : "http://localhost:5173",
+        origin : "https://connectin-frontend.onrender.com",
         credentials : true,
     }
 })
@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-    origin : "http://localhost:5173",
+    origin : "https://connectin-frontend.onrender.com",
     credentials : true,
 }));
 
