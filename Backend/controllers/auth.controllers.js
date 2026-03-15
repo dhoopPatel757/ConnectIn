@@ -100,11 +100,12 @@ export const login = async(req,res) => {
 
 export const logout = (req,res) => {
     try{
+        const isProduction = process.env.NODE_ENV === "production";
         res.clearCookie("token", {
-            httpOnly : true,
-            secure : true,
-            sameSite : "None"
-        });
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? "None" : "Lax"
+    });
         return res.status(200).json({message : "Logout successful"});
     }catch(err) {
         console.log("Error : ", err);
