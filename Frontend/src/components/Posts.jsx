@@ -12,7 +12,7 @@ const Posts = ({ id, author, likes, comments, description, image, createdAt }) =
 
     const { socket } = useContext(UserDataContext);
 
-    const { serverUrl } = useContext(AuthDataContext);
+    const { serverUrl, authHeader } = useContext(AuthDataContext);
     const { userData, handleGetProfile } = useContext(UserDataContext);
     const { getPosts } = useContext(UserDataContext);
 
@@ -76,7 +76,7 @@ const Posts = ({ id, author, likes, comments, description, image, createdAt }) =
             const result = await axios.post(
                 `${serverUrl}/api/posts/${id}/like`,
                 {},
-                { withCredentials: true }
+                authHeader()
             );
 
             setPostLikes(result.data.likes);
@@ -103,7 +103,7 @@ const Posts = ({ id, author, likes, comments, description, image, createdAt }) =
             await axios.post(
                 serverUrl + "/api/posts/" + id + "/comment",
                 { content: newComment.content },
-                { withCredentials: true }
+                authHeader()
             );
 
             /* Instant UI update */
