@@ -112,24 +112,40 @@ const Posts = ({ id, author, likes, comments, description, image, createdAt }) =
     };
 
     // Listen for real-time like updates
-    useEffect(() => {
-        if(!socket) return;
-        socket.on("likeUpdated", ({ postId, likes }) => {
-            if (postId === id) {
-                setPostLikes(likes);
-            }
-        });
-        socket.on("commentAdded", ({ postId, comm }) => {
-            if (postId === id) {
-                setPostComments(comm);
-            }
-        });
+    // useEffect(() => {
+    //     if(!socket) return;
+    //     socket.on("likeUpdated", ({ postId, likes }) => {
+    //         if (postId === id) {
+    //             setPostLikes(likes);
+    //         }
+    //     });
+    //     socket.on("commentAdded", ({ postId, comm }) => {
+    //         if (postId === id) {
+    //             setPostComments(comm);
+    //         }
+    //     });
 
-        return () => {
-            socket.off("likeUpdated");
-            socket.off("commentAdded");
-        }
-    }, [id]);
+    //     return () => {
+    //         socket.off("likeUpdated");
+    //         socket.off("commentAdded");
+    //     }
+    // }, [id]);
+
+    useEffect(() => {
+    if(!socket) return;
+    const handleLikeUpdated = ({ postId, likes }) => {
+        if (postId === id) setPostLikes(likes);
+    };
+    const handleCommentAdded = ({ postId, comm }) => {
+        if (postId === id) setPostComments(comm);
+    };
+    socket.on("likeUpdated", handleLikeUpdated);
+    socket.on("commentAdded", handleCommentAdded);
+    return () => {
+        socket.off("likeUpdated", handleLikeUpdated);   // ✅
+        socket.off("commentAdded", handleCommentAdded); // ✅
+    }
+}, [id, socket]);
 
 
     // useEffect(() => {
