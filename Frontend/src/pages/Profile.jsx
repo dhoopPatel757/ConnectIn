@@ -29,14 +29,14 @@ const Profile = () => {
 
     let [suggestedUser, setSuggestedUser] = useState([]);
 
-    let { serverUrl } = useContext(AuthDataContext);
+    let { serverUrl, authHeader } = useContext(AuthDataContext);
 
 
     let [userConnection, setUserConnection] = useState([]);
 
     const handleGetUserConnections = async () => {
         try {
-            let result = await axios.get(serverUrl + "/api/connection/", { withCredentials: true });
+            let result = await axios.get(serverUrl + "/api/connection/", authHeader());
             setUserConnection(result.data);
         } catch (error) {
             console.log(error);
@@ -45,7 +45,7 @@ const Profile = () => {
 
     const handleSuggestedUsers = async () => {
         try {
-            let result = await axios.get(`${serverUrl}/api/user/suggestions`, { withCredentials: true });
+            let result = await axios.get(`${serverUrl}/api/user/suggestions`, authHeader());
             setSuggestedUser(result.data);
         } catch (err) {
             console.log('Error fetching suggested users', err);
@@ -55,7 +55,7 @@ const Profile = () => {
     // new added functions using AI
     const handleSendConnectionRequest = async (targetUserId) => {
         try {
-            await axios.post(`${serverUrl}/api/connection/request/${targetUserId}`, {}, { withCredentials: true });
+            await axios.post(`${serverUrl}/api/connection/request/${targetUserId}`, {}, authHeader());
             setConnStatus(prev => ({ ...prev, [targetUserId]: 'pending' }));
         } catch (err) {
             console.error('Error sending connection request', err);
@@ -65,7 +65,7 @@ const Profile = () => {
     // new added functions using AI
     const handleRemoveConnection = async (targetUserId) => {
         try {
-            await axios.delete(`${serverUrl}/api/connection/remove/${targetUserId}`, { withCredentials: true });
+            await axios.delete(`${serverUrl}/api/connection/remove/${targetUserId}`, authHeader());
             // update local userData.connection if present
             if (setUserData && userData) {
                 setUserData(prev => ({ ...prev, connection: (prev.connection || []).filter(id => id !== targetUserId) }));
