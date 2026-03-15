@@ -9,8 +9,13 @@ import Profile from "./pages/Profile";
 import Notification from "./pages/Notification";
 
 const App = () => {
-  const { userData } = useContext(UserDataContext);
-
+  const { userData, authLoading } = useContext(UserDataContext);
+  
+  // wait until auth check finishes
+  if (authLoading) {
+    return <div className="w-screen h-screen flex items-center justify-center">Loading...</div>;
+  }
+  
   return (
     <Routes>
       <Route path="/" element={userData ? <Home /> : <Navigate to="/login" />} />
