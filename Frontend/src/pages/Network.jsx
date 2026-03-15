@@ -8,13 +8,13 @@ import profilepicture from "../assets/profile.png";
 
 const Network = () => {
 
-    let { serverUrl } = useContext(AuthDataContext);
+    let { serverUrl, authHeader } = useContext(AuthDataContext);
 
     let [connections, setConnections] = React.useState([]);
 
     const handleGetRequests = async () => {
         try {
-            let result = await axios.get(`${serverUrl}/api/connection/requests`, { withCredentials: true });
+            let result = await axios.get(`${serverUrl}/api/connection/requests`, authHeader());
             console.log(result.data);
             setConnections(result.data);
         } catch (err) {
@@ -28,7 +28,7 @@ const Network = () => {
 
     const handleAcceptConnection = async(requestId) => {
         try{
-            let result = await axios.put(`${serverUrl}/api/connection/accept/${requestId}`, {}, { withCredentials: true });
+            let result = await axios.put(`${serverUrl}/api/connection/accept/${requestId}`, {}, authHeader());
             console.log("Connection accepted:", result.data);
             await handleGetRequests();
         }catch(err){
@@ -38,7 +38,7 @@ const Network = () => {
 
     const handleRejectConnection = async(requestId) => {
         try{
-            let result = await axios.put(`${serverUrl}/api/connection/reject/${requestId}`, {}, { withCredentials: true });
+            let result = await axios.put(`${serverUrl}/api/connection/reject/${requestId}`, {}, authHeader());
             console.log("Connection rejected:", result.data);
             await handleGetRequests();
         }catch(err){
