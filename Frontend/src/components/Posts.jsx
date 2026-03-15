@@ -113,6 +113,7 @@ const Posts = ({ id, author, likes, comments, description, image, createdAt }) =
 
     // Listen for real-time like updates
     useEffect(() => {
+        if(!socket) return;
         socket.on("likeUpdated", ({ postId, likes }) => {
             if (postId === id) {
                 setPostLikes(likes);
