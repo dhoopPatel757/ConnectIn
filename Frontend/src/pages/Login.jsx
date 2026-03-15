@@ -36,7 +36,7 @@ const Login = () => {
       setErr("");
     
     }catch(error) {
-      setErr(error.response.data.message);
+      setErr(error.response?.data?.message || "Something went wrong. Please try again.");
       setLoading(false);
     }
   }
