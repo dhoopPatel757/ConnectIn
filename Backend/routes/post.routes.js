@@ -4,7 +4,7 @@ import isAuth from "../middlewares/isAuth.js";
 import upload from "../middlewares/multer.js";
 import { getPosts } from "../controllers/post.controllers.js";
 import { like } from "../controllers/post.controllers.js";
-import { comment } from "../controllers/post.controllers.js";``
+import { comment } from "../controllers/post.controllers.js";
 const postRouter = express.Router();
 
 
