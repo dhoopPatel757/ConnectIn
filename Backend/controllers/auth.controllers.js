@@ -50,7 +50,10 @@ export const signup = async(req,res) => {
           secure: isProduction,
         });
 
-        return res.status(201).json(user);
+        // return res.status(201).json(user);
+
+        const { password: _, ...safeUser } = user.toObject();
+        return res.status(201).json(safeUser);
 
     }catch(err) {
         console.log(err);
@@ -92,7 +95,9 @@ export const login = async(req,res) => {
           secure: isProduction,
         });
 
-        return res.status(200).json(user);
+        // return res.status(200).json(user);
+        const { password: _, ...safeUser } = user.toObject();
+        return res.status(200).json(safeUser);
     }catch(err) {
         return res.status(500).json({message : "error"});
     }
