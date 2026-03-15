@@ -8,7 +8,7 @@ import axios from "axios";
 
 const CreatePostPopup = ({ userData, showPopup, setShowPopup }) => {
 
-    let { serverUrl } = useContext(AuthDataContext);
+    let { serverUrl, authHeader } = useContext(AuthDataContext);
     const imageInput = useRef(null);
     let {setPostData} = useContext(UserDataContext);
     let [frontendImage, setFrontendImage] = useState(null);
@@ -36,12 +36,12 @@ const CreatePostPopup = ({ userData, showPopup, setShowPopup }) => {
             }
 
             // change karyo api/post/create
-            let result = await axios.post(serverUrl + "/api/posts", formdata, { withCredentials: true });
+            let result = await axios.post(serverUrl + "/api/posts", formdata, authHeader());
 
             // Refresh posts so UI updates without manual refresh
             try {
                 // change karyo /api/post/all
-                const posts = await axios.get(serverUrl + "/api/posts", { withCredentials: true });
+                const posts = await axios.get(serverUrl + "/api/posts", authHeader());
                 setPostData(posts.data);
             } catch (fetchErr) {
                 console.error("Failed to refresh posts:", fetchErr);
