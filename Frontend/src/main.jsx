@@ -6,6 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 import AuthContext from "./context/AuthContext.jsx";
 import UserContext from "./context/UserContext.jsx";
 
+
+// new added things.
+import axios from "axios";
+axios.defaults.withCredentials = true;
+
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <AuthContext>
