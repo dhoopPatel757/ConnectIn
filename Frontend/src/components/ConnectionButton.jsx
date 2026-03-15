@@ -71,7 +71,6 @@ const ConnectionButton = ({ userId }) => {
     useEffect(() => {
         if (!userData || !serverUrl || !userId || !socket) return;
 
-        if (!socket) return;
         socket.emit("register", userData._id);
         handleGetStatus();
         const handleStatusUpdate = ({ updatedUserId, newStatus }) => {
