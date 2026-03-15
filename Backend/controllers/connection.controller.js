@@ -237,7 +237,7 @@ export const getSuggestedUser = async(req,res) => {
         
         let suggestedUsers = await User.find({
             _id : {
-                $ne : req.userId
+                $ne : req.userId,
                 $nin : currentUser.connection
             }
         }).select("-password");
