@@ -30,11 +30,17 @@ const Posts = ({ id, author, likes, comments, description, image, createdAt }) =
 
     const maxLength = 300;
 
-    const isLongText = description.length > maxLength;
+    // const isLongText = description.length > maxLength;
 
+    // const displayedText = expanded
+    //     ? description
+    //     : description.substring(0, maxLength);
+
+    const safeDescription = description || "";                 // ✅ fallback to empty string
+    const isLongText = safeDescription.length > maxLength;
     const displayedText = expanded
-        ? description
-        : description.substring(0, maxLength);
+        ? safeDescription
+        : safeDescription.substring(0, maxLength);
 
     const isLiked = postLikes.includes(userData?._id);
 
