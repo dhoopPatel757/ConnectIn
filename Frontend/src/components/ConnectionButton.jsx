@@ -49,6 +49,7 @@ const ConnectionButton = ({ userId }) => {
     }
 
     const handleGetStatus = async () => {
+        if (!userId || !serverUrl) return;
         try {
             let result = await axios.get(`${serverUrl}/api/connection/status/${userId}`, { withCredentials: true });
             console.log("Connection status fetched:", result.data);
@@ -58,22 +59,42 @@ const ConnectionButton = ({ userId }) => {
         }
     }
 
+    // useEffect(() => {
+    //     if (!userData || !serverUrl || !userId || !socket) return;
+
+    //     if (!socket) return;
+    //     socket.emit("register", userData._id);
+    //     handleGetStatus();
+    //     socket.on("statusUpdate", ({ updatedUserId, newStatus }) => {
+    //         if (updatedUserId === userId) {
+    //             setStatus(newStatus);
+    //         }
+    //     });
+
+    //     return () => {
+    //         socket.off("statusUpdate");
+    //     }
+    // }, [userId, userData, serverUrl]);
+
     useEffect(() => {
-        if (!userData || !serverUrl) return;
+    if (!userData || !serverUrl || !userId || !socket) return;
 
-        if (!socket) return;
-        socket.emit("register", userData._id);
-        handleGetStatus();
-        socket.on("statusUpdate", ({ updatedUserId, newStatus }) => {
-            if (updatedUserId === userId) {
-                setStatus(newStatus);
-            }
-        });
+    socket.emit("register", userData._id);
+    handleGetStatus();
 
-        return () => {
-            socket.off("statusUpdate");
+    const handler = ({ updatedUserId, newStatus }) => {
+        if (updatedUserId === userId) {
+            setStatus(newStatus);
         }
-    }, [userId, userData, serverUrl]);
+    };
+
+    socket.on("statusUpdate", handler);
+
+    return () => {
+        socket.off("statusUpdate", handler);
+    };
+}, [userId, userData, serverUrl, socket]);
+    
 
     const handleClick = async () => {
 
