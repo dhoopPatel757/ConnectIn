@@ -9,7 +9,7 @@ import { FiCamera } from "react-icons/fi";
 
 function EditProfile() {
   const { userData, setUserData, setEdit } = useContext(UserDataContext);
-  const { serverUrl } = useContext(AuthDataContext);
+  const { serverUrl, authHeaderMultipart } = useContext(AuthDataContext);
 
   let [firstName, setFirstName] = useState(userData.firstname || "");
   let [lastName, setLastName] = useState(userData.lastname || "");
@@ -141,7 +141,7 @@ function EditProfile() {
         formData.append("coverImage", backendCoverImage);
       }
 
-      let result = await axios.put(serverUrl + "/api/user/update", formData, { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } });
+      let result = await axios.put(serverUrl + "/api/user/update", formData, authHeaderMultipart());
 
       // setUserData(result.data);
 
