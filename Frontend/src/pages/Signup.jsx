@@ -21,30 +21,48 @@ const Signup = () => {
   let [err, setErr] = useState("");
   let {userData,setUserData} = useContext(UserDataContext);
 
-  const handleSignup = async(event) => {
-    event.preventDefault(); // preventing from refreshing the page on form submission.
-    setLoading(true);
-    try{
-      let result = await axios.post(serverUrl + "/api/auth/signup", {
-        firstname, lastname, username, email, password
-      }, {withCredentials : true});
-      console.log(result);
+  // const handleSignup = async(event) => {
+  //   event.preventDefault(); // preventing from refreshing the page on form submission.
+  //   setLoading(true);
+  //   try{
+  //     let result = await axios.post(serverUrl + "/api/auth/signup", {
+  //       firstname, lastname, username, email, password
+  //     }, {withCredentials : true});
+  //     console.log(result);
 
-      setUserData(result.data);
-      navigate("/");
-      setFirstName("");
-      setLastName("");
-      setUserName("");
-      setEmail("");
-      setPassword("");
-      setLoading(false);
-      setErr("");
+  //     setUserData(result.data);
+  //     navigate("/");
+  //     setFirstName("");
+  //     setLastName("");
+  //     setUserName("");
+  //     setEmail("");
+  //     setPassword("");
+  //     setLoading(false);
+  //     setErr("");
     
-    }catch(error) {
-      setErr(error.response?.data?.message || "Something went wrong. Please try again.");  // ✅
-      setLoading(false);
+  //   }catch(error) {
+  //     setErr(error.response?.data?.message || "Something went wrong. Please try again.");  // ✅
+  //     setLoading(false);
+  //   }
+  // }
+
+  const handleSignup = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+        let result = await axios.post(serverUrl + "/api/auth/signup", {
+            firstname, lastname, username, email, password
+        });
+        localStorage.setItem("token", result.data.token);
+        setUserData(result.data.user);
+        navigate("/");
+        setFirstName(""); setLastName(""); setUserName(""); setEmail(""); setPassword("");
+        setLoading(false); setErr("");
+    } catch(error) {
+        setErr(error.response?.data?.message || "Something went wrong. Please try again.");
+        setLoading(false);
     }
-  }
+}
 
   return (
     <div className="w-full h-screen bg-white flex flex-col items-center justify-start">
