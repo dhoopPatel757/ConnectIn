@@ -1,3 +1,7 @@
+// importing env variables. (npm i dotenv)
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 
 import http from "http";
@@ -21,9 +25,7 @@ export const io = new Server(server, {
         credentials : true,
     }
 })
-// importing env variables. (npm i dotenv)
-import dotenv from "dotenv";
-dotenv.config();
+
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
@@ -34,7 +36,7 @@ app.use(cors({
     origin : [
         "http://localhost:5173",
         "https://connectin-frontend.onrender.com",
-        ]
+        ],
     credentials : true,
 }));
 
