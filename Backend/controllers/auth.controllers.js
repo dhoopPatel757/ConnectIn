@@ -48,8 +48,6 @@ export const signup = async(req,res) => {
           maxAge: 7 * 24 * 60 * 60 * 1000,
           sameSite: isProduction ? "None" : "Lax",
           secure: isProduction,
-          domain : ".onrender.com"
-            // new added domain
         });
 
         return res.status(201).json(user);
@@ -92,8 +90,6 @@ export const login = async(req,res) => {
           maxAge: 7 * 24 * 60 * 60 * 1000,
           sameSite: isProduction ? "None" : "Lax",
           secure: isProduction,
-          domain : ".onrender.com"
-            // new added domain
         });
 
         return res.status(200).json(user);
@@ -107,7 +103,7 @@ export const logout = (req,res) => {
         res.clearCookie("token", {
             httpOnly : true,
             secure : true,
-            samSite : "None"
+            sameSite : "None"
         });
         return res.status(200).json({message : "Logout successful"});
     }catch(err) {
