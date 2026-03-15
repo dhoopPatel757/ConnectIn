@@ -33,20 +33,29 @@ const ConnectionButton = ({ userId }) => {
         }
     }
 
-    const handleRemoveConnection = async () => {
-        try {
-            let result = await axios.delete(`${serverUrl}/api/connection/remove/${userId}`, { withCredentials: true });
-            console.log("Connection request sent:", result.data);
-            setStatus("Connect");
+    // const handleRemoveConnection = async () => {
+    //     try {
+    //         let result = await axios.delete(`${serverUrl}/api/connection/remove/${userId}`, { withCredentials: true });
+    //         console.log("Connection request sent:", result.data);
+    //         setStatus("Connect");
 
-            socket.emit("statusUpdate", {
-                updatedUserId: userId,
-                newStatus: "Connect"
-            });
-        } catch (err) {
-            console.log("Error sending connection request:", err);
-        }
+    //         socket.emit("statusUpdate", {
+    //             updatedUserId: userId,
+    //             newStatus: "Connect"
+    //         });
+    //     } catch (err) {
+    //         console.log("Error sending connection request:", err);
+    //     }
+    // }
+
+    const handleRemoveConnection = async () => {
+    try {
+        let result = await axios.delete(`${serverUrl}/api/connection/remove/${userId}`, { withCredentials: true });
+        setStatus("Connect");  // ✅ UI updates fine, server handles the socket
+    } catch (err) {
+        console.log("Error removing connection:", err);
     }
+}
 
     const handleGetStatus = async () => {
         if (!userId || !serverUrl) return;
