@@ -371,8 +371,8 @@ const Profile = () => {
                         {`Post (${profilePosts.length})`}
                     </div>
 
-                    {profilePosts.map((post, index) => (
-                        <div className="mb-5" key={index}>
+                    {profilePosts.map((post) => (
+                        <div className="mb-5" key={post._id}>
 
                             <Posts id={post._id} description={post.description} author={post.author} image={post.image} likes={post.likes} comments={post.comments} createdAt={post.createdAt} />
                         </div>
