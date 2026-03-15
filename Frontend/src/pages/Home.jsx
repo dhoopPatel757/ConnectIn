@@ -137,8 +137,8 @@ const Home = () => {
         </div>
 
         <div className="flex flex-col gap-[20px]">
-          {postData.map((post, index) => (
-            <Posts key={index} id={post._id} description={post.description} author={post.author} image={post.image} likes={post.likes} comments={post.comments} createdAt={post.createdAt} />
+          {postData.map((post) => (
+            <Posts key={post._id} id={post._id} description={post.description} author={post.author} image={post.image} likes={post.likes} comments={post.comments} createdAt={post.createdAt} />
           ))}
         </div>
 
