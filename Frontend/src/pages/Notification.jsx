@@ -7,7 +7,7 @@ import profilepicture from '../assets/profile.png'
 
 
 const Notification = () => {
-    const { serverUrl } = useContext(AuthDataContext)
+    const { serverUrl, authHeader } = useContext(AuthDataContext)
     const { socket, userData } = useContext(UserDataContext)
 
     const [notificationData, setNotificationData] = useState([])
@@ -18,7 +18,7 @@ const Notification = () => {
     const handleGetNotifications = async () => {
         try {
             setLoading(true)
-            const res = await axios.get(`${serverUrl}/api/notifications`, { withCredentials: true })
+            const res = await axios.get(`${serverUrl}/api/notifications`, authHeader());
             setNotificationData(res.data.notifications || [])
         } catch (err) {
             console.error('fetch notifications error', err)
@@ -31,7 +31,7 @@ const Notification = () => {
 
     const handleDeleteNotification = async (id) => {
         try {
-            await axios.delete(`${serverUrl}/api/notifications/${id}`, { withCredentials: true })
+            await axios.delete(`${serverUrl}/api/notifications/${id}`, authHeader());
             setNotificationData(prev => prev.filter(n => n._id !== id))
         } catch (err) {
             console.error('delete notification error', err)
@@ -45,7 +45,7 @@ const Notification = () => {
         setNotificationData([]);
         setClearing(true);
         try {
-            await axios.delete(`${serverUrl}/api/notifications/clear`, { withCredentials: true });
+            await axios.delete(`${serverUrl}/api/notifications/clear`, authHeader());
             setMessage('All notifications cleared')
             setTimeout(() => setMessage(''), 3000)
         } catch (err) {
