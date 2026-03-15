@@ -59,41 +59,41 @@ const ConnectionButton = ({ userId }) => {
         }
     }
 
-    // useEffect(() => {
-    //     if (!userData || !serverUrl || !userId || !socket) return;
-
-    //     if (!socket) return;
-    //     socket.emit("register", userData._id);
-    //     handleGetStatus();
-    //     socket.on("statusUpdate", ({ updatedUserId, newStatus }) => {
-    //         if (updatedUserId === userId) {
-    //             setStatus(newStatus);
-    //         }
-    //     });
-
-    //     return () => {
-    //         socket.off("statusUpdate");
-    //     }
-    // }, [userId, userData, serverUrl]);
-
     useEffect(() => {
-    if (!userData || !serverUrl || !userId || !socket) return;
+        if (!userData || !serverUrl || !userId || !socket) return;
 
-    socket.emit("register", userData._id);
-    handleGetStatus();
+        if (!socket) return;
+        socket.emit("register", userData._id);
+        handleGetStatus();
+        socket.on("statusUpdate", ({ updatedUserId, newStatus }) => {
+            if (updatedUserId === userId) {
+                setStatus(newStatus);
+            }
+        });
 
-    const handler = ({ updatedUserId, newStatus }) => {
-        if (updatedUserId === userId) {
-            setStatus(newStatus);
+        return () => {
+            socket.off("statusUpdate");
         }
-    };
+    }, [userId, userData, serverUrl]);
 
-    socket.on("statusUpdate", handler);
+//     useEffect(() => {
+//     if (!userData || !serverUrl || !userId || !socket) return;
 
-    return () => {
-        socket.off("statusUpdate", handler);
-    };
-}, [userId, userData, serverUrl, socket]);
+//     socket.emit("register", userData._id);
+//     handleGetStatus();
+
+//     const handler = ({ updatedUserId, newStatus }) => {
+//         if (updatedUserId === userId) {
+//             setStatus(newStatus);
+//         }
+//     };
+
+//     socket.on("statusUpdate", handler);
+
+//     return () => {
+//         socket.off("statusUpdate", handler);
+//     };
+// }, [userId, userData, serverUrl, socket]);
     
 
     const handleClick = async () => {
