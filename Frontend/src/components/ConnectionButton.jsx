@@ -65,16 +65,14 @@ const ConnectionButton = ({ userId }) => {
         if (!socket) return;
         socket.emit("register", userData._id);
         handleGetStatus();
-        socket.on("statusUpdate", ({ updatedUserId, newStatus }) => {
-            if (updatedUserId === userId) {
-                setStatus(newStatus);
-            }
-        });
-
-        return () => {
-            socket.off("statusUpdate");
-        }
+        const handleStatusUpdate = ({ updatedUserId, newStatus }) => {
+            if (updatedUserId === userId) { setStatus(newStatus); }
+        };
+        socket.on("statusUpdate", handleStatusUpdate);
+        return () => { socket.off("statusUpdate", handleStatusUpdate); }
+        
     }, [userId, userData, serverUrl]);
+    
 
 //     useEffect(() => {
 //     if (!userData || !serverUrl || !userId || !socket) return;
