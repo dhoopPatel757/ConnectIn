@@ -62,6 +62,7 @@
 // };
 
 
+
 // export const login = async(req,res) => {
 //     try{
 //        let {email,password} = req.body;
@@ -118,6 +119,9 @@
 //     }
 // }
 
+import generateToken from "../config/token.js";
+import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
 
 export const signup = async(req, res) => {
     try {
