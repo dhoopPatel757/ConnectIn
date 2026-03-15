@@ -99,8 +99,7 @@ const Posts = ({ id, author, likes, comments, description, image, createdAt }) =
             );
 
             /* Instant UI update */
-            // setPostComments(prev => [...prev, newComment]);
-
+            setPostComments(prev => [...prev, newComment]);
             setCommentInput("");
 
         } catch (err) {
