@@ -31,7 +31,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-    origin : "https://connectin-frontend.onrender.com",
+    origin : [
+        "http://localhost:5173",
+        "https://connectin-frontend.onrender.com",
+        ]
     credentials : true,
 }));
 
