@@ -11,7 +11,6 @@ export const UserDataContext = createContext();
 const UserContext = ({ children }) => {
 
     let [userData, setUserData] = useState(null);
-    let [authLoading, setAuthLoading] = useState(true);
     let {serverUrl} = useContext(AuthDataContext);
     let [edit, setEdit] = useState(false);
 
@@ -22,31 +21,19 @@ const UserContext = ({ children }) => {
     let [profileData, setProfileData] = useState(null);
     let navigate = useNavigate();
 
-    // let getCurrentUser = async() => {
-    //     try{
-    //         let result = await axios.get(serverUrl + "/api/user/me", {withCredentials : true});
-    //         setUserData(result.data);
-    //         if(socket){
-    //             socket.emit('register', result.data._id);
-    //         }
-    //     }catch(err){
-    //         setUserData(null);
-    //     }   
-    // }
-
-    let getCurrentUser = async () => {
-        try {
-            let result = await axios.get(serverUrl + "/api/user/me", { withCredentials: true });
+    let getCurrentUser = async() => {
+        try{
+            let result = await axios.get(serverUrl + "/api/user/me", {withCredentials : true});
             setUserData(result.data);
-            if (socket) {
-                socket.emit("register", result.data._id);
+            if(socket){
+                socket.emit('register', result.data._id);
             }
-        } catch (err) {
+        }catch(err){
             setUserData(null);
-        } finally {
-            setAuthLoading(false);
-        }
-    };
+        }   
+    }
+
+    
 
     const handleGetProfile = async(username) => {
 
@@ -92,23 +79,8 @@ const UserContext = ({ children }) => {
         }
     }, [socket, userData]);
 
-    // let value = {userData, setUserData, edit, setEdit, postData, setPostData, getPosts, socket, handleGetProfile, profileData, setProfileData};
+    let value = {userData, setUserData, edit, setEdit, postData, setPostData, getPosts, socket, handleGetProfile, profileData, setProfileData};
 
-    let value = {
-    userData,
-    setUserData,
-    authLoading,
-    edit,
-    setEdit,
-    postData,
-    setPostData,
-    getPosts,
-    socket,
-    handleGetProfile,
-    profileData,
-    setProfileData
-};
-    
     return (
         <div>
             <UserDataContext.Provider value={value}>
