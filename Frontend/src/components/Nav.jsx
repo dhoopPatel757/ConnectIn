@@ -26,20 +26,36 @@ const Nav = () => {
 
   let [showPopup, setShowPopup] = useState(false);
 
-  let { serverUrl } = useContext(AuthDataContext);
+  // let { serverUrl } = useContext(AuthDataContext);
+
+  let { serverUrl, authHeader } = useContext(AuthDataContext);
+
 
   let navigate = useNavigate();
 
+  const { logout } = useContext(UserDataContext);
+  
+  // const handleLogout = async () => {
+  //   try {
+  //     let result = await axios.get(serverUrl + "/api/auth/logout", { withCredentials: true });
+  //     console.log(result);
+  //     setUserData(null);
+  //     navigate("/login");
+  //   } catch (err) {
+  //     console.log("Error : ", err);
+  //   }
+  // }
+
   const handleLogout = async () => {
     try {
-      let result = await axios.get(serverUrl + "/api/auth/logout", { withCredentials: true });
-      console.log(result);
-      setUserData(null);
-      navigate("/login");
-    } catch (err) {
-      console.log("Error : ", err);
+        await axios.get(serverUrl + "/api/auth/logout", authHeader());
+        logout();
+        navigate("/login");
+    } catch(err) {
+        console.log("Error:", err);
     }
-  }
+}
+
 
   useEffect(() => {
     // click outside to close dropdown
@@ -61,7 +77,8 @@ const Nav = () => {
     const id = setTimeout(async () => {
       setLoadingResults(true);
       try {
-        const res = await axios.get(`${serverUrl}/api/user/search?q=${encodeURIComponent(query)}`, { withCredentials: true });
+        // const res = await axios.get(`${serverUrl}/api/user/search?q=${encodeURIComponent(query)}`, { withCredentials: true });
+        const res = await axios.get(`${serverUrl}/api/user/search?q=${encodeURIComponent(query)}`, authHeader());
         setResults(res.data || []);
       } catch (err) {
         console.error('Search error', err);
