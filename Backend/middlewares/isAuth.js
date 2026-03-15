@@ -15,7 +15,7 @@ const isAuth = async(req,res,next) => {
         req.userId = verifyToken.userId;
         next();
     }catch(err){
-        return res.status(500).json({message : "auth error"});
+        return res.status(401).json({message : "Session expired. Please log in again."});  // ✅
     }
 }
 
