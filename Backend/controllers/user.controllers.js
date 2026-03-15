@@ -36,11 +36,19 @@ export const updateProfile = async (req, res) => {
             coverImage = await uploadOnCloudinary(req.files.coverImage[0].path);
         }
 
-        let user = await User.findByIdAndUpdate(id, {
-            firstname, lastname, username, headline, location, gender, skills, education, experience, profileImage, coverImage
-        }, { new: true }).select("-password");
+        // let user = await User.findByIdAndUpdate(id, {
+        //     firstname, lastname, username, headline, location, gender, skills, education, experience, profileImage, coverImage
+        // }, { new: true }).select("-password");
 
+        const updateFields = {
+            firstname, lastname, username, headline,
+            location, gender, skills, education, experience
+        };
 
+        if (profileImage) updateFields.profileImage = profileImage;  // ✅ only if new image uploaded
+        if (coverImage) updateFields.coverImage = coverImage;        // ✅ only if new image uploaded
+
+        let user = await User.findByIdAndUpdate(id, updateFields, { new: true }).select("-password");
 
         if (!user) {
             return res.status(400).json({ message: "user does not found" });
