@@ -12,7 +12,7 @@ import { AuthDataContext } from "../context/AuthContext.jsx";
 
 
 const Home = () => {
-  const { serverUrl } = useContext(AuthDataContext);
+  const { serverUrl, authHeader } = useContext(AuthDataContext);
   const { userData, edit, setEdit, postData, setPostData, handleGetProfile } = useContext(UserDataContext);
   const [showPopup, setShowPopup] = useState(false);
 
@@ -20,7 +20,7 @@ const Home = () => {
 
   const handleSuggestedUsers = async () => {
     try {
-      let result = await axios.get(`${serverUrl}/api/user/suggestions`, { withCredentials: true });
+      let result = await axios.get(`${serverUrl}/api/user/suggestions`, authHeader());
       setSuggestedUser(result.data);
     } catch (err) {
       console.log(err);
