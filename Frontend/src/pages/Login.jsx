@@ -19,27 +19,42 @@ const Login = () => {
 
   let {userData,setUserData} = useContext(UserDataContext);
 
-  const handleLogin = async(event) => {
+  // const handleLogin = async(event) => {
+  //   event.preventDefault();
+  //   setLoading(true);
+  //   try{
+  //     let result = await axios.post(serverUrl + "/api/auth/login", {
+  //         email, password
+  //     }, {withCredentials : true});
+  //     console.log(result);
+
+  //     setUserData(result.data);
+  //     navigate("/");
+  //     setEmail("");
+  //     setPassword("");
+  //     setLoading(false);
+  //     setErr("");
+    
+  //   }catch(error) {
+  //     setErr(error.response?.data?.message || "Something went wrong. Please try again.");
+  //     setLoading(false);
+  //   }
+  // }
+
+  const handleLogin = async (event) => {
     event.preventDefault();
     setLoading(true);
-    try{
-      let result = await axios.post(serverUrl + "/api/auth/login", {
-          email, password
-      }, {withCredentials : true});
-      console.log(result);
-
-      setUserData(result.data);
-      navigate("/");
-      setEmail("");
-      setPassword("");
-      setLoading(false);
-      setErr("");
-    
-    }catch(error) {
-      setErr(error.response?.data?.message || "Something went wrong. Please try again.");
-      setLoading(false);
+    try {
+        let result = await axios.post(serverUrl + "/api/auth/login", { email, password });
+        localStorage.setItem("token", result.data.token);
+        setUserData(result.data.user);
+        navigate("/");
+        setEmail(""); setPassword(""); setLoading(false); setErr("");
+    } catch(error) {
+        setErr(error.response?.data?.message || "Something went wrong. Please try again.");
+        setLoading(false);
     }
-  }
+}
 
 
   return (
