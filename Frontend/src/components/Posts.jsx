@@ -42,7 +42,9 @@ const Posts = ({ id, author, likes, comments, description, image, createdAt }) =
         ? safeDescription
         : safeDescription.substring(0, maxLength);
 
-    const isLiked = postLikes.includes(userData?._id);
+    // const isLiked = postLikes.includes(userData?._id);
+
+    const isLiked = postLikes.some(id => id.toString() === userData?._id);  // ✅
 
     /* LIKE POST */
     // const handleLike = async () => {
