@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const ConnectionButton = ({ userId }) => {
-    let { serverUrl } = useContext(AuthDataContext);
+    let { serverUrl, authHeader } = useContext(AuthDataContext);
     let { userData, setUserData, socket } = useContext(UserDataContext);
     let [status, setStatus] = useState("Connect");
     let [error, setError] = useState("");
@@ -23,7 +23,8 @@ const ConnectionButton = ({ userId }) => {
         }
         try {
             setError("");
-            const result = await axios.post(`${serverUrl}/api/connection/request/${userId}`, {}, { withCredentials: true });
+            // const result = await axios.post(`${serverUrl}/api/connection/request/${userId}`, {}, { withCredentials: true });
+            const result = await axios.post(`${serverUrl}/api/connection/request/${userId}`, {}, authHeader());
             console.log(result.data);
             await handleGetStatus();
         } catch (err) {
@@ -50,7 +51,7 @@ const ConnectionButton = ({ userId }) => {
 
     const handleRemoveConnection = async () => {
     try {
-        let result = await axios.delete(`${serverUrl}/api/connection/remove/${userId}`, { withCredentials: true });
+        let result = await axios.delete(`${serverUrl}/api/connection/remove/${userId}`, authHeader());
         setStatus("Connect");  // ✅ UI updates fine, server handles the socket
     } catch (err) {
         console.log("Error removing connection:", err);
@@ -60,7 +61,7 @@ const ConnectionButton = ({ userId }) => {
     const handleGetStatus = async () => {
         if (!userId || !serverUrl) return;
         try {
-            let result = await axios.get(`${serverUrl}/api/connection/status/${userId}`, { withCredentials: true });
+            let result = await axios.get(`${serverUrl}/api/connection/status/${userId}`, authHeader());
             console.log("Connection status fetched:", result.data);
             setStatus(result.data.status);
         } catch (err) {
