@@ -54,6 +54,7 @@ const CreatePostPopup = ({ userData, showPopup, setShowPopup }) => {
             setShowPopup(false);
         } catch (err) {
             console.log(err);
+            setPosting(false);  // ✅ re-enable button on error
         }
     }
 
