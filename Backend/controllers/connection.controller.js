@@ -93,15 +93,23 @@ export const acceptConnection = async(req,res) => {
             $addToSet : {connection : req.userId}
         });
 
-        let receiverSocketId = userSocketMap.get(connection.receiver._id.toString());
-        let senderSocketId = userSocketMap.get(connection.sender._id.toString());
+        let receiverSocketId = userSocketMap.get(connection.receiver.toString());
+        let senderSocketId = userSocketMap.get(connection.sender.toString());
 
         if(receiverSocketId){
-            io.to(receiverSocketId).emit("statusUpdate", {updatedUserId : connection.sender._id, newStatus : "Connected"});
+            // io.to(receiverSocketId).emit("statusUpdate", {updatedUserId : connection.sender._id, newStatus : "Connected"});
+            io.to(receiverSocketId).emit("statusUpdate", {
+                updatedUserId: connection.sender.toString(),
+                newStatus: "Connected"
+            });
         }
 
         if(senderSocketId){
-            io.to(senderSocketId).emit("statusUpdate", {updatedUserId : req.userId, newStatus : "Connected"});
+            // io.to(senderSocketId).emit("statusUpdate", {updatedUserId : req.userId, newStatus : "Connected"});
+            io.to(senderSocketId).emit("statusUpdate", {
+                updatedUserId: req.userId,
+                newStatus: "Connected"
+            });
         }
         res.status(200).json({message : "Connection request accepted"});
 
@@ -229,7 +237,7 @@ export const getSuggestedUser = async(req,res) => {
         
         let suggestedUsers = await User.find({
             _id : {
-                $ne : currentUser, 
+                $ne : req.userId
                 $nin : currentUser.connection
             }
         }).select("-password");
