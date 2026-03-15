@@ -355,7 +355,7 @@ const Profile = () => {
                             <div key={index} className="mb-3">
 
                                 <div className="font-medium">{exp.company}</div>
-                                <div className="text-sm text-gray-500">{exp.role}</div>
+                                <div className="text-sm text-gray-500">{exp.jobTitle}</div>
 
                             </div>
 
