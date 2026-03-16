@@ -164,7 +164,7 @@ const UserContext = ({ children }) => {
         }
     }, [socket, userData]);
 
-    let value = { userData, setUserData, edit, setEdit, postData, setPostData, getPosts, socket, handleGetProfile, profileData, setProfileData, logout };
+    let value = { userData, setUserData, edit, setEdit, postData, setPostData, getPosts, getCurrentUser, socket, handleGetProfile, profileData, setProfileData, logout };
 
     return (
         <UserDataContext.Provider value={value}>
