@@ -13,7 +13,7 @@ import { AuthDataContext } from "../context/AuthContext.jsx";
 
 const Home = () => {
   const { serverUrl, authHeader } = useContext(AuthDataContext);
-  const { userData, edit, setEdit, postData, setPostData, handleGetProfile } = useContext(UserDataContext);
+  const { userData, edit, setEdit, postData, setPostData, handleGetProfile, getPosts } = useContext(UserDataContext);
   const [showPopup, setShowPopup] = useState(false);
 
   let [suggestedUser, setSuggestedUser] = useState([]);
@@ -30,6 +30,7 @@ const Home = () => {
 
   useEffect(() => {
     handleSuggestedUsers();
+    getPosts();
   }, [])
 
 
