@@ -48,6 +48,7 @@ const Login = () => {
         let result = await axios.post(serverUrl + "/api/auth/login", { email, password });
         localStorage.setItem("token", result.data.token);
         setUserData(result.data.user);
+        await getPosts();
         navigate("/");
         setEmail(""); setPassword(""); setLoading(false); setErr("");
     } catch(error) {
