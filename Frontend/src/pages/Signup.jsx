@@ -19,7 +19,7 @@ const Signup = () => {
 
   let [loading, setLoading] = useState(false);
   let [err, setErr] = useState("");
-  let {userData,setUserData} = useContext(UserDataContext);
+  let {userData,setUserData,getPosts} = useContext(UserDataContext);
 
   // const handleSignup = async(event) => {
   //   event.preventDefault(); // preventing from refreshing the page on form submission.
@@ -55,6 +55,7 @@ const Signup = () => {
         });
         localStorage.setItem("token", result.data.token);
         setUserData(result.data.user);
+        await getPosts();
         navigate("/");
         setFirstName(""); setLastName(""); setUserName(""); setEmail(""); setPassword("");
         setLoading(false); setErr("");
